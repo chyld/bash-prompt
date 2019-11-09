@@ -3,12 +3,13 @@
 const execa = require("execa");
 const display = require('./views').display
 
-let conda, user, hostname, directory, git;
+let conda, user, hostname, home, directory, git;
 
 (async () => { 
     try {
         conda = process.env["CONDA_DEFAULT_ENV"];
         user = process.env["USER"];
+        home = process.env["HOME"];
         hostname = (await execa("hostname")).stdout;
         directory = (await execa("pwd")).stdout;
         git = (await execa("git", [
@@ -16,8 +17,8 @@ let conda, user, hostname, directory, git;
             "--porcelain=2",
             "--branch"
         ])).stdout;
-        display(conda, user, hostname, directory, git);
+        display(conda, user, hostname, home, directory, git);
     } catch (error) {
-        display(conda, user, hostname, directory);
+        display(conda, user, hostname, home, directory);
     }
 })();
