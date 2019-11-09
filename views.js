@@ -21,7 +21,7 @@ function u(text) {
 // -------------------------------------------------------------------- //
 
 function viewGit(git) {
-    if(!git) return "💠";
+    if(!git) return "🚀";
 
     const lines = git.split('\n');
 
