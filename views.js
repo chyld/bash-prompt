@@ -95,7 +95,7 @@ function viewDirectory(home, directory){
 
 module.exports.display = (conda, user, hostname, home, directory, git) => {
     let output = ` ${viewConda(conda)} ⚡ ${viewUser(user)}@${viewHostname(hostname)}`;
-    output += ` ${viewDirectory(home, directory)} ${viewGit(git)} : `;
+    output += ` ${viewDirectory(home, directory)} ${viewGit(git)} `;
     process.stdout.write(output);
 };
 
