@@ -10,9 +10,9 @@ function c(fg, text) {
     return open + text + close;
 }
 
-function u(text) {
-    const open  = "\001" + ansi.underline.open + "\002";
-    const close = "\001" + ansi.underline.close + "\002";
+function u(fg, text) {
+    const open  = "\001" + ansi.underline.open + fg.open + "\002";
+    const close = "\001" + fg.close + ansi.underline.close + "\002";
     return open + text + close;
 }
 
@@ -29,7 +29,7 @@ function viewGit(git) {
     let upstream = "";
     let ahead = 0;
     let behind = 0;
-    let dirty = '➖';
+    let dirty = '🍀';
 
     lines.forEach(line => {
         if (line[0] == "#") {
@@ -47,11 +47,11 @@ function viewGit(git) {
             behind = Math.abs(parseInt(sections[3]));
         }
         } else {
-        dirty = '➕';
+        dirty = '✨';
         }
     });
 
-    return `${c(ansi.green, local)}/${c(ansi.red, upstream)} ${u(ahead)}/${u(behind)} ${dirty}`;
+    return `${c(ansi.green, local)}/${c(ansi.white, upstream)} {${u(ansi.yellow, ahead)}/${u(ansi.yellow, behind)}} ${dirty}`;
 }
 
 // -------------------------------------------------------------------- //
@@ -86,7 +86,7 @@ function viewDirectory(home, directory){
     if(directory.startsWith(home))
         directory = directory.replace(home, '~');
 
-    return c(ansi.yellow, directory);
+    return u(ansi.yellow, directory);
 }
 
 // -------------------------------------------------------------------- //
@@ -94,7 +94,7 @@ function viewDirectory(home, directory){
 // -------------------------------------------------------------------- //
 
 module.exports.display = (conda, user, hostname, home, directory, git) => {
-    let output = ` ${viewConda(conda)} ⚡ ${viewUser(user)}@${viewHostname(hostname)}`;
+    let output = `${viewConda(conda)} ⚡ ${viewUser(user)}@${viewHostname(hostname)}`;
     output += ` ${viewDirectory(home, directory)} ${viewGit(git)} `;
     process.stdout.write(output);
 };
