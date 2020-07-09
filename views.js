@@ -51,6 +51,8 @@ function viewGit(git) {
     }
   });
 
+  if(upstream === "") upstream = "FIXME";
+
   return `${c(ansi.green, local)}/${c(ansi.white, upstream)} {${u(ansi.yellow, ahead)}/${u(ansi.yellow, behind)}} ${dirty}`;
 }
 
