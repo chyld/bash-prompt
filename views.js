@@ -16,6 +16,12 @@ function u(fg, text) {
   return open + text + close;
 }
 
+function i(fg, text) {
+  const open = "\001" + ansi.italic.open + fg.open + "\002";
+  const close = "\001" + fg.close + ansi.italic.close + "\002";
+  return open + text + close;
+}
+
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -69,7 +75,7 @@ function viewConda(conda) {
 // -------------------------------------------------------------------- //
 
 function viewUser(user) {
-  return c(ansi.cyan, user);
+  return i(ansi.cyan, user);
 }
 
 // -------------------------------------------------------------------- //
@@ -77,7 +83,15 @@ function viewUser(user) {
 // -------------------------------------------------------------------- //
 
 function viewHostname(hostname) {
-  return c(ansi.cyan, hostname);
+  return i(ansi.cyan, hostname);
+}
+
+// -------------------------------------------------------------------- //
+// -------------------------------------------------------------------- //
+// -------------------------------------------------------------------- //
+
+function viewHex(hex) {
+  return c(ansi.bgBlackBright, hex);
 }
 
 // -------------------------------------------------------------------- //
@@ -93,9 +107,12 @@ function viewDirectory(home, directory) {
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
-module.exports.display = (conda, user, hostname, home, directory, git) => {
-  let output = `${viewConda(conda)} ⚡ ${viewUser(user)}@${viewHostname(hostname)}`;
-  output += ` ${viewDirectory(home, directory)} ${viewGit(git)} \n>>> `;
+module.exports.display = (conda, user, hostname, home, directory, hex, git) => {
+  let output = '';
+  output += `\n${viewHex(hex)}\n`;
+  output += `${viewConda(conda)} ⚡ ${viewUser(user)}@${viewHostname(hostname)}`;
+  output += ` ${viewDirectory(home, directory)} ${viewGit(git)}\n+ `;
+
   process.stdout.write(output);
 };
 
