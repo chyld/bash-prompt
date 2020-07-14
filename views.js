@@ -1,4 +1,5 @@
 const ansi = require("ansi-styles");
+const boxen = require('boxen');
 
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -91,7 +92,7 @@ function viewHostname(hostname) {
 // -------------------------------------------------------------------- //
 
 function viewHex(hex) {
-  return c(ansi.bgBlackBright, hex);
+  return c(ansi.blueBright, hex);
 }
 
 // -------------------------------------------------------------------- //
@@ -108,11 +109,11 @@ function viewDirectory(home, directory) {
 // -------------------------------------------------------------------- //
 
 module.exports.display = (conda, user, hostname, home, directory, hex, git) => {
-  let output = ``;
-  output += `\n\n${viewHex(hex)}\n`;
-  output += `${viewConda(conda)} ⚡ ${viewUser(user)}/${viewHostname(hostname)}`;
-  output += ` ${viewDirectory(home, directory)} ${viewGit(git)}\n+ `;
+  let output = `${viewHex(hex)}`;
+  process.stdout.write(boxen(output, {padding:0, borderStyle:'single', margin:{top:1}}));
 
+  output = `\n${viewConda(conda)} ⚡ ${viewUser(user)}/${viewHostname(hostname)}`;
+  output += ` ${viewDirectory(home, directory)} ${viewGit(git)}\n+ `;
   process.stdout.write(output);
 };
 
