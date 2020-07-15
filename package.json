@@ -9,9 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ansi-styles": "^4.1.0",
     "boxen": "^4.2.0",
-    "chalk": "^2.4.2",
-    "execa": "^3.2.0"
+    "chalk": "^4.1.0",
+    "execa": "^4.0.3"
   }
 }

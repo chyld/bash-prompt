@@ -1,34 +1,12 @@
-const ansi = require("ansi-styles");
-const boxen = require('boxen');
-
-// -------------------------------------------------------------------- //
-// -------------------------------------------------------------------- //
-// -------------------------------------------------------------------- //
-
-function c(fg, text) {
-  const open = "\001" + fg.open + "\002";
-  const close = "\001" + fg.close + "\002";
-  return open + text + close;
-}
-
-function u(fg, text) {
-  const open = "\001" + ansi.underline.open + fg.open + "\002";
-  const close = "\001" + fg.close + ansi.underline.close + "\002";
-  return open + text + close;
-}
-
-function i(fg, text) {
-  const open = "\001" + ansi.italic.open + fg.open + "\002";
-  const close = "\001" + fg.close + ansi.italic.close + "\002";
-  return open + text + close;
-}
+const boxen = require("boxen");
+const chalk = require("chalk")
 
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
 function viewGit(git) {
-  if (!git) return "🚀";
+  if (!git) return "";
 
   const lines = git.split("\n");
 
@@ -36,7 +14,7 @@ function viewGit(git) {
   let upstream = "";
   let ahead = 0;
   let behind = 0;
-  let dirty = "🤖";
+  let dirty = "🔹";
 
   lines.forEach(line => {
     if (line[0] == "#") {
@@ -54,13 +32,13 @@ function viewGit(git) {
           behind = Math.abs(parseInt(sections[3]));
       }
     } else {
-      dirty = "🎭";
+      dirty = "🔸";
     }
   });
 
   if(upstream === "") upstream = "FIXME";
 
-  return `${c(ansi.green, local)}/${c(ansi.white, upstream)} {${u(ansi.yellow, ahead)}/${u(ansi.yellow, behind)}} ${dirty}`;
+  return `${dirty} local: ${chalk.underline.green(local)} upstream: ${chalk.underline.green(upstream)} ${chalk.yellowBright(ahead)}/${chalk.yellowBright(behind)}`;
 }
 
 // -------------------------------------------------------------------- //
@@ -68,7 +46,7 @@ function viewGit(git) {
 // -------------------------------------------------------------------- //
 
 function viewConda(conda) {
-  return c(ansi.yellow, conda);
+  return chalk.magentaBright(conda);
 }
 
 // -------------------------------------------------------------------- //
@@ -76,7 +54,7 @@ function viewConda(conda) {
 // -------------------------------------------------------------------- //
 
 function viewUser(user) {
-  return i(ansi.cyan, user);
+  return chalk.italic.white(user);
 }
 
 // -------------------------------------------------------------------- //
@@ -84,7 +62,7 @@ function viewUser(user) {
 // -------------------------------------------------------------------- //
 
 function viewHostname(hostname) {
-  return i(ansi.cyan, hostname);
+  return chalk.italic.white(hostname);
 }
 
 // -------------------------------------------------------------------- //
@@ -92,7 +70,7 @@ function viewHostname(hostname) {
 // -------------------------------------------------------------------- //
 
 function viewHex(hex) {
-  return c(ansi.blueBright, hex);
+  return chalk.hex('#4a3f35').italic(hex);
 }
 
 // -------------------------------------------------------------------- //
@@ -101,7 +79,7 @@ function viewHex(hex) {
 
 function viewDirectory(home, directory) {
   if (directory.startsWith(home)) directory = directory.replace(home, "~");
-  return u(ansi.yellow, directory);
+  return chalk.hex('#fa7d09').underline(directory);
 }
 
 // -------------------------------------------------------------------- //
@@ -110,7 +88,7 @@ function viewDirectory(home, directory) {
 
 module.exports.display = (conda, user, hostname, home, directory, hex, git) => {
   let output = `${viewHex(hex)}`;
-  process.stdout.write(boxen(output, {padding:0, borderStyle:'single', margin:{top:1}}));
+  process.stdout.write(boxen(output, {borderColor:'#4a3f35', padding:0, borderStyle:'single', margin:{top:1}}));
 
   output = `\n${viewConda(conda)} ⚡ ${viewUser(user)}/${viewHostname(hostname)}`;
   output += ` ${viewDirectory(home, directory)} ${viewGit(git)}\n+ `;
