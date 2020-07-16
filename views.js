@@ -22,9 +22,14 @@ function viewGit(git) {
   const [oid] = lookup['branch.oid'] || ['OID'];
   const [head] = lookup['branch.head'] || ['HEAD'];
   const [upstream] = lookup['branch.upstream'] || ['UPSTREAM'];
-  const [a, b] = lookup['branch.ab'] || ['+0', '-0'];
 
-  return `[${chalk.blue(modifications, a, b)}] local: ${chalk.underline.yellow(head)} upstream: ${chalk.underline.yellow(upstream)} commit: ${chalk.underline.yellow(oid.slice(0, 7))}`;
+  let [a, b] = lookup['branch.ab'] || ['+0', '-0'];
+  a = Math.abs(parseInt(a));
+  b = Math.abs(parseInt(b));
+  total = modifications + a + b;
+  if (total > 0) flag = "🔸"; else flag = "🔹";
+
+  return `[${chalk.blue(modifications, a, b)}] ${flag} local: ${chalk.underline.yellow(head)} upstream: ${chalk.underline.yellow(upstream)} commit: ${chalk.underline.yellow(oid.slice(0, 7))}`;
 }
 
 // -------------------------------------------------------------------- //
@@ -78,7 +83,7 @@ module.exports.display = (conda, user, hostname, home, directory, hex, git) => {
 
   output = `\n${viewConda(conda)} ⚡ ${viewUser(user)}/${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
   if (git) output += `\n${viewGit(git)}`;
-  output += `\n+ `;
+  output += `\n✚ `;
   process.stdout.write(output);
 };
 
