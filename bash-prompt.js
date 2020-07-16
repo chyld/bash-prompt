@@ -15,7 +15,7 @@ let conda, user, hostname, home, directory, hex, git;
     hex = (await execa(`${__dirname}/hex.sh`)).stdout;
     git = (await execa("git", ["status", "--porcelain=2", "--branch"])).stdout;
     display(conda, user, hostname, home, directory, hex, git);
-  } catch (error) {
+  } catch (err) {
     display(conda, user, hostname, home, directory, hex);
   }
 })();
