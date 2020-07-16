@@ -6,39 +6,25 @@ const chalk = require("chalk")
 // -------------------------------------------------------------------- //
 
 function viewGit(git) {
-  if (!git) return "";
+  const lines = git.split('\n');
+  const lookup = {};
+  let modifications = 0;
 
-  const lines = git.split("\n");
-
-  let local = "";
-  let upstream = "";
-  let ahead = 0;
-  let behind = 0;
-  let dirty = "🔹";
-
-  lines.forEach(line => {
-    if (line[0] == "#") {
-      const sections = line.split(" ");
-
-      switch (sections[1]) {
-        case "branch.head":
-          local = sections[2];
-          break;
-        case "branch.upstream":
-          upstream = sections[2];
-          break;
-        case "branch.ab":
-          ahead = parseInt(sections[2]);
-          behind = Math.abs(parseInt(sections[3]));
-      }
+  for (let line of lines){
+    if (line[0] === '#'){
+      words = line.split(' ');
+      lookup[words[1]] = words.slice(2);
     } else {
-      dirty = "🔸";
+      modifications += 1;
     }
-  });
+  }
 
-  if(upstream === "") upstream = "FIXME";
+  const [oid] = lookup['branch.oid'] || ['OID'];
+  const [head] = lookup['branch.head'] || ['HEAD'];
+  const [upstream] = lookup['branch.upstream'] || ['UPSTREAM'];
+  const [a, b] = lookup['branch.ab'] || ['+0', '-0'];
 
-  return `${dirty} local: ${chalk.underline.green(local)} upstream: ${chalk.underline.green(upstream)} ${chalk.yellowBright(ahead)}/${chalk.yellowBright(behind)}`;
+  return `[${chalk.blue(modifications, a, b)}] local: ${chalk.underline.yellow(head)} upstream: ${chalk.underline.yellow(upstream)} commit: ${chalk.underline.yellow(oid.slice(0, 7))}`;
 }
 
 // -------------------------------------------------------------------- //
@@ -46,7 +32,7 @@ function viewGit(git) {
 // -------------------------------------------------------------------- //
 
 function viewConda(conda) {
-  return chalk.magentaBright(conda);
+  return chalk.yellow(conda);
 }
 
 // -------------------------------------------------------------------- //
@@ -88,10 +74,11 @@ function viewDirectory(home, directory) {
 
 module.exports.display = (conda, user, hostname, home, directory, hex, git) => {
   let output = `${viewHex(hex)}`;
-  process.stdout.write(boxen(output, {borderColor:'#4a3f35', padding:0, borderStyle:'single', margin:{top:1}}));
+  process.stdout.write(boxen(output, {borderColor:'#A99787', padding:0, borderStyle:'single', margin:{top:1}}));
 
-  output = `\n${viewConda(conda)} ⚡ ${viewUser(user)}/${viewHostname(hostname)}`;
-  output += ` ${viewDirectory(home, directory)} ${viewGit(git)}\n+ `;
+  output = `\n${viewConda(conda)} ⚡ ${viewUser(user)}/${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
+  if (git) output += `\n${viewGit(git)}`;
+  output += `\n+ `;
   process.stdout.write(output);
 };
 
