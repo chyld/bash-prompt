@@ -3,7 +3,7 @@
 const execa = require("execa");
 const display = require("./views").display;
 
-let conda, user, hostname, home, directory, hex, git;
+let conda, user, hostname, home, directory, hex, nodever, git;
 
 (async () => {
   try {
@@ -13,9 +13,10 @@ let conda, user, hostname, home, directory, hex, git;
     hostname = (await execa("hostname")).stdout;
     directory = (await execa("pwd")).stdout;
     hex = (await execa(`${__dirname}/hex.sh`)).stdout;
+    nodever = (await execa("node", ["--version"])).stdout;
     git = (await execa("git", ["status", "--porcelain=2", "--branch"])).stdout;
-    display(conda, user, hostname, home, directory, hex, git);
+    display(conda, user, hostname, home, directory, hex, nodever, git);
   } catch (err) {
-    display(conda, user, hostname, home, directory, hex);
+    display(conda, user, hostname, home, directory, hex, nodever);
   }
 })();
