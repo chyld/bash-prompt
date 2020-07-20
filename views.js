@@ -89,7 +89,7 @@ module.exports.display = (conda, user, hostname, home, directory, hex, nodever, 
   let output = `${viewHex(hex)}`;
   process.stdout.write(boxen(output, {borderColor:'#A99787', padding:0, borderStyle:'single', margin:{top:1}}));
 
-  output = `\n[${viewConda(conda)}, ${viewNodeVer(nodever)}] ⚡ ${viewUser(user)}-${viewHostname(hostname)} [${viewDirectory(home, directory)}]`;
+  output = `\n(${viewConda(conda)}, ${viewNodeVer(nodever)}) ⚡ ${viewUser(user)}-${viewHostname(hostname)} [${viewDirectory(home, directory)}]`;
   if (git) output += `\n${viewGit(git)}`;
   output += `\n✚ `;
   process.stdout.write(output);
