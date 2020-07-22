@@ -21,7 +21,7 @@ function viewGit(git) {
 
   const [oid] = lookup['branch.oid'] || ['OID'];
   const [head] = lookup['branch.head'] || ['HEAD'];
-  const [upstream] = lookup['branch.upstream'] || ['UPSTREAM'];
+  const [upstream] = lookup['branch.upstream'] || ['???'];
 
   let [a, b] = lookup['branch.ab'] || ['+0', '-0'];
   a = Math.abs(parseInt(a));
