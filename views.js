@@ -1,5 +1,7 @@
 const boxen = require("boxen");
 const chalk = require("chalk")
+const gradient = require('gradient-string');
+const stringLength = require('string-length');
 
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
@@ -86,13 +88,13 @@ function viewDirectory(home, directory) {
 // -------------------------------------------------------------------- //
 
 module.exports.display = (conda, user, hostname, home, directory, hex, nodever, git) => {
-  let options = {borderColor: '#777777', dimBorder: true, margin: {top: 1}};
-  let output = `${viewConda(conda)} / ${viewNodeVer(nodever)} ⚡ ${viewUser(user)}-${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
-  process.stdout.write(boxen(output, options));
-
-  output = '';
-  if (git) output = `\n${viewGit(git)}`;
-  output += `\n✚ `;
+  // https://en.wikipedia.org/wiki/Box-drawing_character
+  let line2 = '';
+  const line1 = `${viewConda(conda)} / ${viewNodeVer(nodever)} ⚡ ${viewUser(user)}-${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
+  if (git) line2 = `\n${viewGit(git)}`;
+  const line3 = '─'.repeat(stringLength(line2.length ? line2 : line1) + (line2.length ? 0 : 1));
+  const line4 = `✚ `;
+  const output = `\n${line1}${line2}\n${chalk.blue(line3)}\n${line4}`;
   process.stdout.write(output);
 };
 

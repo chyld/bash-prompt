@@ -11,6 +11,8 @@
   "dependencies": {
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
-    "execa": "^4.0.3"
+    "execa": "^4.0.3",
+    "gradient-string": "^1.2.0",
+    "string-length": "^4.0.1"
   }
 }
