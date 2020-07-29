@@ -78,7 +78,7 @@ function viewNodeVer(nodever) {
 
 function viewDirectory(home, directory) {
   if (directory.startsWith(home)) directory = directory.replace(home, "~");
-  return chalk.hex('#fa7d09').underline(directory);
+  return chalk.hex('#ff33cc').underline(directory);
 }
 
 // -------------------------------------------------------------------- //
@@ -86,8 +86,12 @@ function viewDirectory(home, directory) {
 // -------------------------------------------------------------------- //
 
 module.exports.display = (conda, user, hostname, home, directory, hex, nodever, git) => {
-  output = `\n(${viewConda(conda)}, ${viewNodeVer(nodever)}) ⚡ ${viewUser(user)}-${viewHostname(hostname)} [${viewDirectory(home, directory)}]`;
-  if (git) output += `\n${viewGit(git)}`;
+  let options = {borderColor: '#777777', dimBorder: true, margin: {top: 1}};
+  let output = `${viewConda(conda)} / ${viewNodeVer(nodever)} ⚡ ${viewUser(user)}-${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
+  process.stdout.write(boxen(output, options));
+
+  output = '';
+  if (git) output = `\n${viewGit(git)}`;
   output += `\n✚ `;
   process.stdout.write(output);
 };
