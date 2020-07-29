@@ -86,11 +86,9 @@ function viewDirectory(home, directory) {
 // -------------------------------------------------------------------- //
 
 module.exports.display = (conda, user, hostname, home, directory, hex, nodever, git) => {
-  output = `(${viewConda(conda)}, ${viewNodeVer(nodever)}) ⚡ ${viewUser(user)}-${viewHostname(hostname)} [${viewDirectory(home, directory)}]`;
+  output = `\n(${viewConda(conda)}, ${viewNodeVer(nodever)}) ⚡ ${viewUser(user)}-${viewHostname(hostname)} [${viewDirectory(home, directory)}]`;
   if (git) output += `\n${viewGit(git)}`;
-  process.stdout.write(boxen(output, {borderColor:'#777777', padding:0, borderStyle:'single', margin:{top:1}}));
-
-  output = `\n✚ `;
+  output += `\n✚ `;
   process.stdout.write(output);
 };
 
