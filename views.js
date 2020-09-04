@@ -47,7 +47,7 @@ function viewConda(conda) {
 // -------------------------------------------------------------------- //
 
 function viewUser(user) {
-  return chalk.italic.white(user);
+  return chalk.hex('#33ffcc')(user);
 }
 
 // -------------------------------------------------------------------- //
@@ -55,7 +55,7 @@ function viewUser(user) {
 // -------------------------------------------------------------------- //
 
 function viewHostname(hostname) {
-  return chalk.italic.white(hostname);
+  return chalk.dim.white.inverse(hostname);
 }
 
 // -------------------------------------------------------------------- //
@@ -90,7 +90,7 @@ function viewDirectory(home, directory) {
 module.exports.display = (conda, user, hostname, home, directory, hex, nodever, git) => {
   // https://en.wikipedia.org/wiki/Box-drawing_character
   let line2 = '';
-  const line1 = `${viewConda(conda)} / ${viewNodeVer(nodever)} ⚡ ${viewUser(user)}-${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
+  const line1 = `${viewConda(conda)} / ${viewNodeVer(nodever)} ⚡ *${viewUser(user)}* ${viewHostname(hostname)} ${viewDirectory(home, directory)}`;
   if (git) line2 = `\n${viewGit(git)}`;
   const line3 = '─'.repeat(stringLength(line2.length ? line2 : line1) + (line2.length ? 0 : 1));
   const line4 = `✚ `;
