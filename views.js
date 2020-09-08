@@ -45,7 +45,7 @@ function viewGit(git) {
 // -------------------------------------------------------------------- //
 
 function viewConda(conda) {
-  return ' ' + chalk.yellow(conda);
+  return chalk.black.bgYellow('  ' + conda) + chalk.yellow('');
 }
 
 // -------------------------------------------------------------------- //
@@ -86,7 +86,7 @@ function viewNodeVer(nodever) {
 
 function viewDirectory(home, directory) {
   if (directory.startsWith(home)) directory = directory.replace(home, '~');
-  return ' ' + chalk.hex('#ff33cc').underline(directory);
+  return chalk.hex('#ff33cc')('') + chalk.black.bgHex('#ff33cc')(' ' + directory) + chalk.hex('#ff33cc')('');
 }
 
 // -------------------------------------------------------------------- //
@@ -105,7 +105,7 @@ module.exports.display = (conda, user, hostname, home, directory, hex, nodever, 
   // LIVE
   let output = `\n${viewConda(conda)} ${viewDirectory(home, directory)}`;
   if (git) output += ` ${viewGit(git)}`;
-  output += '\n ';
+  output += '\n  ';
   process.stdout.write(output);
 };
 
