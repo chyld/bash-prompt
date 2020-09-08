@@ -37,7 +37,7 @@ function viewGit(git) {
   }
 
   //return `[${chalk.blue(modifications, a, b)}] ${flag} local: ${chalk.underline.yellow(head)} upstream: ${chalk.underline.yellow(upstream)} commit: ${chalk.underline.yellow(oid.slice(0, 7))}`;
-  return `|${chalk.yellow(head)}:${chalk.green(upstream)} ${chalk.yellow.underline(total)}|`;
+  return ` ${chalk.yellow(head)}  ${chalk.green(upstream)}  ${chalk.yellow(total)}`;
 }
 
 // -------------------------------------------------------------------- //
@@ -45,7 +45,7 @@ function viewGit(git) {
 // -------------------------------------------------------------------- //
 
 function viewConda(conda) {
-  return chalk.yellow(conda);
+  return ' ' + chalk.yellow(conda);
 }
 
 // -------------------------------------------------------------------- //
@@ -86,7 +86,7 @@ function viewNodeVer(nodever) {
 
 function viewDirectory(home, directory) {
   if (directory.startsWith(home)) directory = directory.replace(home, '~');
-  return chalk.hex('#ff33cc').underline(directory);
+  return ' ' + chalk.hex('#ff33cc').underline(directory);
 }
 
 // -------------------------------------------------------------------- //
@@ -105,7 +105,7 @@ module.exports.display = (conda, user, hostname, home, directory, hex, nodever, 
   // LIVE
   let output = `\n${viewConda(conda)} ${viewDirectory(home, directory)}`;
   if (git) output += ` ${viewGit(git)}`;
-  output += '\n✚ ';
+  output += '\n ';
   process.stdout.write(output);
 };
 
