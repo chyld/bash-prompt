@@ -31,13 +31,13 @@ function viewGit(git) {
   total = modifications + a + b;
 
   if (total > 0) {
-    flag = '🔸';
+    flag = '🔴';
   } else {
-    flag = '🔹';
+    flag = '🟢';
   }
 
   //return `[${chalk.blue(modifications, a, b)}] ${flag} local: ${chalk.underline.yellow(head)} upstream: ${chalk.underline.yellow(upstream)} commit: ${chalk.underline.yellow(oid.slice(0, 7))}`;
-  return ` ${chalk.yellow(head)}  ${chalk.green(upstream)}  ${chalk.yellow(total)}`;
+  return ` ${chalk.yellow(head)}  ${chalk.green(upstream)} ${flag}`;
 }
 
 // -------------------------------------------------------------------- //
